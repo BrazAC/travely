@@ -75,4 +75,4 @@ class JanelaLogin(QWidget):
         self.setLayout(self.layout_principal)
 
     def mostrarJanela(self):
-        self.show()
+        self.showFullScreen()
