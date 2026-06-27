@@ -1,12 +1,13 @@
 from PySide6.QtWidgets import QApplication, QWidget, QFrame, QVBoxLayout, QHBoxLayout, QPushButton, QLabel
+from PySide6.QtCore import Signal
 
 class JanelaLogin(QWidget):
+    # Sinais
+    sinal_btnGerenteApertado = Signal()
+    sinal_btnOperadorApertado = Signal()
+
     def __init__(self, Qapplication):
         super().__init__(None) 
-        # Configurar janela
-        self.setWindowTitle("Travely")
-        self.resize(400, 300)
-
         # Widgets
         self.layout_principal = None
         self.layout_frame_labels = None
@@ -40,8 +41,13 @@ class JanelaLogin(QWidget):
         self.botao_gerente = QPushButton("Gerente")
         self.botao_operador = QPushButton("Operador")
 
-
     def __editarWidgets(self):
+        # Botao gerente
+        self.botao_gerente.clicked.connect(self.sinal_btnGerenteApertado.emit)
+
+        # Botao operador
+        self.botao_operador.clicked.connect(self.sinal_btnOperadorApertado.emit)
+
         # Frame labels
         self.frame_labels.setFrameShape(QFrame.StyledPanel) 
         self.frame_labels.setStyleSheet("""
