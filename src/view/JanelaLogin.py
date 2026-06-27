@@ -1,5 +1,8 @@
 from PySide6.QtWidgets import QApplication, QWidget, QFrame, QVBoxLayout, QHBoxLayout, QPushButton, QLabel
 from PySide6.QtCore import Signal
+from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt
+from pathlib import Path
 
 class JanelaLogin(QWidget):
     # Sinais
@@ -19,6 +22,7 @@ class JanelaLogin(QWidget):
         self.frame_IMAGEM = None
         self.frame_LOGIN = None
         self.label_textoBoasVindas = None
+        self.image_label = None
         self.botao_gerente = None
         self.botao_operador = None
 
@@ -44,6 +48,7 @@ class JanelaLogin(QWidget):
 
         # Labels
         self.label_textoBoasVindas = QLabel("Boas vindas. Faça login:")
+        self.image_label = QLabel()
 
         # Botoes
         self.botao_gerente = QPushButton("Gerente")
@@ -56,19 +61,20 @@ class JanelaLogin(QWidget):
         # Botao operador
         self.botao_operador.clicked.connect(self.sinal_btnOperadorApertado.emit)
 
+        # Label imagem
+        BASE_DIR = Path(__file__).resolve().parent
+        CAMINHO_IMAGEM = BASE_DIR.parent / "assets" / "guys-meeting.jpg"
+        if not CAMINHO_IMAGEM.exists(): print(f"AVISO: Imagem não encontrada no caminho absoluto: {CAMINHO_IMAGEM}")
+
+        pixmap = QPixmap(str(CAMINHO_IMAGEM))
+        scaled_pixmap = pixmap.scaled(1000, 2000, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        self.image_label.setPixmap(scaled_pixmap)
+        self.image_label.setAlignment(Qt.AlignCenter)
+        
         # Frame imagem
         self.frame_IMAGEM.setFrameShape(QFrame.StyledPanel) 
-        self.frame_IMAGEM.setStyleSheet("""
-                                        QLabel {
-                                            background-color: white;
-                                            color: black;
-                                            border: none;
-                                            border-radius: 5px;
-                                            padding: 10px;
-                                        }""")
-        self.layout_frame_IMAGEM.addWidget(self.label_textoBoasVindas) 
+        self.layout_frame_IMAGEM.addWidget(self.image_label)
         self.frame_IMAGEM.setLayout(self.layout_frame_IMAGEM)
-        self.layout_principal.addWidget(self.frame_IMAGEM)   # Adicionar frame ao layout principal
 
         # Frame labels
         self.frame_labels.setFrameShape(QFrame.StyledPanel) 
@@ -91,16 +97,18 @@ class JanelaLogin(QWidget):
                                             background-color: white;
                                             color: black;
                                             border: none;
-                                            border-radius: 5px; /*
+                                            border-radius: 5px;
                                             padding: 10px;
                                         }""")
         self.layout_frame_botoes.addWidget(self.botao_gerente)
         self.layout_frame_botoes.addWidget(self.botao_operador)
         self.frame_botoes.setLayout(self.layout_frame_botoes)
         self.layout_frame_LOGIN.addWidget(self.frame_botoes)   # Adicionar frame ao layout de login
-
-        self.frame_LOGIN.setLayout(self.layout_frame_LOGIN)   # Adicionar layout_frame_login ao frame login
-        self.layout_principal.addWidget(self.frame_LOGIN)    # Adicionar frame login ao layout principal
+        
+        self.frame_LOGIN.setLayout(self.layout_frame_LOGIN)     # Adicionar layout_frame_login ao frame login
+        self.layout_principal.addWidget(self.frame_IMAGEM)      # Adicionar frame imagem ao layout principal
+        self.layout_principal.addWidget(self.frame_LOGIN)       # Adicionar frame login ao layout principal
+        
 
         # Atribuir layout_principal a janela da classe
         self.setLayout(self.layout_principal)
