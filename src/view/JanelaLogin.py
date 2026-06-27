@@ -36,7 +36,7 @@ class JanelaLogin(QWidget):
         # Layouts
         self.layout_principal = QHBoxLayout(self)
         self.layout_frame_labels = QHBoxLayout()
-        self.layout_frame_botoes = QHBoxLayout()
+        self.layout_frame_botoes = QVBoxLayout()
         self.layout_frame_IMAGEM = QHBoxLayout()
         self.layout_frame_LOGIN = QVBoxLayout()
 
