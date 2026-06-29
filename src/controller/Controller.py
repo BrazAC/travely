@@ -5,6 +5,7 @@ from src.model.Model import Model
 from src.view.JanelaPrincipal import JanelaPrincipal
 from src.view.JanelaLogin import JanelaLogin
 from src.view.JanelaDashboard import JanelaDashboard
+from src.view.JanelaOperador import JanelaOperador
 
 class Controller:
     def __init__(self, app):
@@ -16,25 +17,28 @@ class Controller:
         self.__viewJanelaPrincipal = JanelaPrincipal(self.__app)
         self.__viewJanelaLogin = JanelaLogin(self.__app)
         self.__viewJanelaDashboard = JanelaDashboard(self.__app)
+        self.__viewJanelaOperador = JanelaOperador(self.__app)
 
         # Organizar Widget de baralho de janelas
         self.organizarWidgetStackJanelaPrincipal()
 
     def organizarWidgetStackJanelaPrincipal(self):
-        self.__viewJanelaPrincipal
-
         # Adicionar views ao baralho da janela principal
         self.__viewJanelaPrincipal.widgetStackJanelas.addWidget(self.__viewJanelaLogin)     # Índice 0
         self.__viewJanelaPrincipal.widgetStackJanelas.addWidget(self.__viewJanelaDashboard) # Índice 1
+        self.__viewJanelaPrincipal.widgetStackJanelas.addWidget(self.__viewJanelaOperador)  # Índice 2
 
         # Conectar sinais
         self.__viewJanelaLogin.sinal_btnGerenteApertado.connect(self.mudarView_dashboard)
+        self.__viewJanelaLogin.sinal_btnOperadorApertado.connect(self.mudarView_operador)
 
     # Mudar views
     def mudarView_login(self):
         self.__viewJanelaPrincipal.widgetStackJanelas.setCurrentIndex(0)
     def mudarView_dashboard(self):
         self.__viewJanelaPrincipal.widgetStackJanelas.setCurrentIndex(1)
+    def mudarView_operador(self):
+        self.__viewJanelaPrincipal.widgetStackJanelas.setCurrentIndex(2)
 
     def iniciarView(self):
         self.mudarView_login()
