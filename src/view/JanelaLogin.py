@@ -47,7 +47,7 @@ class JanelaLogin(QWidget):
         self.frame_LOGIN = QFrame()
 
         # Labels
-        self.label_textoBoasVindas = QLabel("Boas vindas. Faça login:")
+        self.label_textoBoasVindas = QLabel()
         self.image_label = QLabel()
 
         # Botoes
@@ -55,11 +55,56 @@ class JanelaLogin(QWidget):
         self.botao_operador = QPushButton("Operador")
 
     def __editarWidgets(self):
+        # Estilo botões
+        estilo_botao = """
+                        QPushButton {
+                            background-color: #2c3e50;
+                            color: white;
+                            border-radius: 6px;
+                            padding: 10px;
+                            font-family: 'Segoe UI', Arial;
+                            font-size: 20px;
+                            font-weight: 600;
+                            min-width: 30px;
+                            min-height: 45px;
+                        }
+                        QPushButton:hover {
+                            background-color: #34495e;
+                        }
+                        QPushButton:pressed {
+                            background-color: #1a252f;
+                        }
+                        
+                        """
+
         # Botao gerente
         self.botao_gerente.clicked.connect(self.sinal_btnGerenteApertado.emit)
+        self.botao_gerente.setStyleSheet(estilo_botao)
 
         # Botao operador
         self.botao_operador.clicked.connect(self.sinal_btnOperadorApertado.emit)
+        self.botao_operador.setStyleSheet(estilo_botao)
+
+        # Layout botões
+        # Formato: (Esquerda, Topo, Direita, Base)
+        self.layout_frame_botoes.setContentsMargins(80, 300, 80, 0)
+
+        # 2. Altera a distância (Margem) entre um botão e o outro
+        self.layout_frame_botoes.setSpacing(1)
+
+        # Label texto
+        self.label_textoBoasVindas.setText("Travely") # Adicionei um \n para quebrar a linha se quiser
+        self.label_textoBoasVindas.setAlignment(Qt.AlignCenter)        # Centraliza o texto
+
+        self.label_textoBoasVindas.setStyleSheet("""
+            QLabel {
+                color: #eff0f1;
+                font-size: 60px;
+                font-family: 'Segoe UI', Helvetica, Arial;
+                font-weight: 600;
+                background-color: transparent; /* Para não sobrepor o fundo branco do seu Frame */
+            }
+        """)
 
         # Label imagem
         BASE_DIR = Path(__file__).resolve().parent
@@ -70,22 +115,38 @@ class JanelaLogin(QWidget):
         scaled_pixmap = pixmap.scaled(1000, 2000, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.image_label.setPixmap(scaled_pixmap)
         self.image_label.setAlignment(Qt.AlignCenter)
+        self.image_label.setStyleSheet("""
+                                QFrame {
+                                    background-color: #132237;
+                                    color: black;
+                                    border: 3px solid #ccc;
+                                    border-radius: 5px;
+                                    padding: 0px;
+                                }""")
         
         # Frame imagem
         self.frame_IMAGEM.setFrameShape(QFrame.StyledPanel) 
         self.layout_frame_IMAGEM.addWidget(self.image_label)
         self.frame_IMAGEM.setLayout(self.layout_frame_IMAGEM)
+        self.frame_IMAGEM.setStyleSheet("""
+                                QFrame {
+                                    background-color: #132237;
+                                    color: black;
+                                    border: 0px solid #ccc;
+                                    border-radius: 5px;
+                                    padding: 10px;
+                                }""")
 
         # Frame labels
         self.frame_labels.setFrameShape(QFrame.StyledPanel) 
         self.frame_labels.setStyleSheet("""
-                                        QLabel {
-                                            background-color: white;
-                                            color: black;
-                                            border: none;
-                                            border-radius: 5px;
-                                            padding: 10px;
-                                        }""")
+                                QFrame {
+                                    background-color: #132237;
+                                    color: black;
+                                    border: 0px solid #ccc;
+                                    border-radius: 5px;
+                                    padding: 10px;
+                                }""")
         self.layout_frame_labels.addWidget(self.label_textoBoasVindas) 
         self.frame_labels.setLayout(self.layout_frame_labels)
         self.layout_frame_LOGIN.addWidget(self.frame_labels)   # Adicionar frame ao layout de login
@@ -93,13 +154,13 @@ class JanelaLogin(QWidget):
         # Frame botoes
         self.frame_botoes.setFrameShape(QFrame.StyledPanel) 
         self.frame_botoes.setStyleSheet("""
-                                        QLabel {
-                                            background-color: white;
-                                            color: black;
-                                            border: none;
-                                            border-radius: 5px;
-                                            padding: 10px;
-                                        }""")
+                                QFrame {
+                                    background-color: #132237;
+                                    color: black;
+                                    border: 0px solid #ccc;
+                                    border-radius: 5px;
+                                    padding: 10px;
+                                }""")
         self.layout_frame_botoes.addWidget(self.botao_gerente)
         self.layout_frame_botoes.addWidget(self.botao_operador)
         self.frame_botoes.setLayout(self.layout_frame_botoes)
@@ -112,6 +173,14 @@ class JanelaLogin(QWidget):
 
         # Atribuir layout_principal a janela da classe
         self.setLayout(self.layout_principal)
+        self.setStyleSheet("""
+                                QFrame {
+                                    background-color: #132237;
+                                    color: black;
+                                    border: 0px solid #ccc;
+                                    border-radius: 5px;
+                                    padding: 10px;
+                                }""")
 
     def mostrarJanela(self):
         self.showFullScreen()
