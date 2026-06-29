@@ -38,8 +38,18 @@ class Controller:
     def mudarView_dashboard(self):
         self.__viewJanelaPrincipal.widgetStackJanelas.setCurrentIndex(1)
     def mudarView_operador(self):
+        # Atualizar dados da lista exibida na view operador
+        self.atualizarModeloDadosDeLista(modelo_dados = self.__viewJanelaOperador.modelo_dados)
+        # Mudar indice em exibicao no widget stack
         self.__viewJanelaPrincipal.widgetStackJanelas.setCurrentIndex(2)
 
     def iniciarView(self):
         self.mudarView_login()
         self.__viewJanelaPrincipal.mostrarJanela()
+
+    # Comunicar com o model
+    def atualizarModeloDadosDeLista(self, modelo_dados):
+        # Solicitar dados ao model
+        listaViagens = self.__model.consultarViagens()
+        # Atualiizar modelo de dados
+        modelo_dados.setStringList(listaViagens)
